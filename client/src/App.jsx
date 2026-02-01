@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"; // Core react module
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SignupPage from "./components/SignUp";
 import LoginPage from "./components/SignIn";
