@@ -24,7 +24,7 @@ const SignInPage = () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
 
-        alert("✅ Login successful!");
+        alert("✅ Login successful");
         navigate("/dashboard");
       } else {
         alert(data.message || "Login failed");
