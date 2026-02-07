@@ -32,7 +32,7 @@ const SignupPage = () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
 
-        alert("✅ Signup successful!");
+        alert("✅ Signup successful");
         navigate("/dashboard");
       } else {
         alert(data.message || "Signup failed");
