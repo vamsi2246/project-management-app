@@ -4,6 +4,7 @@ import "../styles/TaskDetails.css";
 import { Link } from "react-router-dom";
 import { CalendarDays } from "lucide-react";
 
+// Task Detail View
 const TaskDetail = () => {
   const tasks = [
     {
