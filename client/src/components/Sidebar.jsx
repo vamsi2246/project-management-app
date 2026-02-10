@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 const Sidebar = () => {
+  // Sidebar renders main navigation links
   return (
     <aside className="sidebar">
       <h2 className="sidebar-logo">Project Manager</h2>
