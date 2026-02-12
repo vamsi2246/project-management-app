@@ -2,6 +2,7 @@ import React from "react";
 import "../styles/ForgotPassword.css";
 import image from "../assets/image3.png";
 
+// Page for password recovery
 const ForgotPasswordPage = () => {
   return (
     <div className="forgot-container">
