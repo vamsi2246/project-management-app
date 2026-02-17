@@ -92,4 +92,5 @@ const SignupPage = () => {
   );
 };
 
+// Export Signup Component
 export default SignupPage;
