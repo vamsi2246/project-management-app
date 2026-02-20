@@ -56,6 +56,7 @@ app.use(
 
 // Increase JSON payload limit for attachments
 app.use(express.json({ limit: "50mb" }));
+// Support large URL-encoded payloads
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 
