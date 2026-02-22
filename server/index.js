@@ -31,7 +31,7 @@ const { Server } = require("socket.io");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const app = express();
+const app = express(); // Initialize express application
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
