@@ -106,6 +106,27 @@ body {
   height: 30px;
 }
 
+.logout-btn {
+  background: transparent;
+  border: none;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #555;
+  transition: all 0.2s ease;
+  margin-left: 5px;
+}
+
+.logout-btn:hover {
+  background-color: #ffebee;
+  color: #d32f2f;
+  transform: translateX(2px);
+  border-radius: 50%;
+}
+
 .dashboard-header {
   margin-top: 25px;
   margin-bottom: 25px;
@@ -555,4 +576,62 @@ body.dark-mode .board-card {
 
 body.dark-mode .board-meta {
   color: var(--text-secondary);
+}
+
+/* Clean Logout Button */
+.logout-btn {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  width: 36px;
+  height: 36px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 8px;
+  padding: 0;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Icon Style - Cyan/Teal to match reference */
+.logout-btn svg,
+.logout-btn svg path,
+.logout-btn svg polyline,
+.logout-btn svg line {
+  stroke: #00bcd4 !important;
+  /* Cyan color */
+  stroke-width: 2.5px;
+  transition: all 0.2s ease;
+}
+
+/* Hover State */
+.logout-btn:hover svg,
+.logout-btn:hover svg path,
+.logout-btn:hover svg polyline,
+.logout-btn:hover svg line {
+  stroke: #00acc1 !important;
+  /* Darker Cyan */
+  transform: translateX(-2px);
+  /* Move arrow left */
+}
+
+/* Dark Mode - Keep Cyan for visibility or adjust? Reference was light. 
+   Let's keep it consistent for now. */
+body.dark-mode .logout-btn {
+  background: transparent !important;
+}
+
+body.dark-mode .logout-btn svg,
+body.dark-mode .logout-btn svg path,
+body.dark-mode .logout-btn svg polyline,
+body.dark-mode .logout-btn svg line {
+  stroke: #26c6da !important;
+  /* Lighter Cyan for dark mode */
+}
+
+body.dark-mode .logout-btn:hover {
+  background-color: rgba(255, 59, 48, 0.15);
+  color: #ff453a;
 }

@@ -32,18 +32,32 @@ exports.signin = async (req, res) => {
 
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) return res.status(404).json({ message: "User not found" });
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || "supersecretkey", {
-      expiresIn: "7d",
-    });
 
-    res.json({ message: "Login successful", token });
+    const isMatch = await bcrypt.compare(password, user.password || "");
+    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+
+    const token = jwt.sign(
+      { id: user.id },
+      process.env.JWT_SECRET || "supersecretkey",
+      { expiresIn: "7d" }
+    );
+
+    res.json({
+      message: "Login successful",
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        profilePic: user.profilePic,
+      }
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error during login" });
   }
 };
+
 
 // ✅ Update User Controller
 exports.updateUser = async (req, res) => {

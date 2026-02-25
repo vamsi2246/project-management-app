@@ -113,7 +113,7 @@ io.on("connection", (socket) => {
         data: {
           content: messageText || "", // Allow empty content if there's an attachment
           userId: userId,
-          projectId: projectId ? parseInt(projectId) : null,
+          projectId: (projectId && projectId !== "global") ? parseInt(projectId) : null,
           recipientId: recipientId ? parseInt(recipientId) : null,
           attachmentUrl,
           fileName,

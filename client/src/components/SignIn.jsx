@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 import "../styles/SignIn.css";
 import image from "../assets/image2.png";
 
 const SignInPage = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -49,10 +51,24 @@ const SignInPage = () => {
 
         <form className="signin-form" onSubmit={handleLogin}>
           <label>Email</label>
-          <input type="email" placeholder="Enter your email" required />
+          <input type="email" name="email" placeholder="Enter your email" required />
 
           <label>Password</label>
-          <input type="password" placeholder="Enter your password" required />
+          <div className="password-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Enter your password"
+              required
+            />
+            <button
+              type="button"
+              className="password-toggle-btn"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
 
           <div className="signin-options">
             <label className="remember-me">

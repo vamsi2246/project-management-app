@@ -1,3 +1,4 @@
+/* ==================== LAYOUT ==================== */
 .projects-container {
   display: flex;
   width: 100%;
@@ -18,6 +19,7 @@
   background: #fff;
 }
 
+/* ==================== HEADER ==================== */
 .projects-header-new {
   display: flex;
   justify-content: space-between;
@@ -29,6 +31,7 @@
   margin-top: 10px;
 }
 
+/* ==================== CREATE CARD ==================== */
 .create-card {
   width: 350px;
   height: 160px;
@@ -49,25 +52,38 @@
   background: #e5ffff;
 }
 
+/* ==================== DROPDOWN ==================== */
 .create-dropdown {
   position: absolute;
   background: #fff;
-  width: 200px;
+  width: 280px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   border: 1px solid #d9e7e7;
   z-index: 999;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .dropdown-item {
-  padding: 12px 15px;
+  padding: 14px 18px;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
 }
 
 .dropdown-item:hover {
-  background-color: #e6ffff;
+  background: linear-gradient(135deg, #e6ffff 0%, #d4f8f8 100%);
   color: #029292;
+  transform: translateX(4px);
 }
 
 .section-title {
@@ -156,6 +172,7 @@
   z-index: 2000;
 }
 
+/* ==================== MODAL ==================== */
 .modal-box {
   width: 420px;
   background: white;
@@ -165,6 +182,55 @@
 
 .modal-box h2 {
   margin-bottom: 15px;
+}
+
+.template-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #e6ffff 0%, #d4f8f8 100%);
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #00b9b9;
+}
+
+.template-info-box {
+  background: #f8fffe;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #d4f8f8;
+}
+
+.template-description {
+  margin: 12px 0 8px 0;
+  color: #555;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.template-lists {
+  font-size: 12px;
+  color: #666;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 8px;
+  border: 1px dashed #00b9b9;
+}
+
+.template-lists strong {
+  color: #029292;
+  margin-right: 6px;
+}
+
+.template-icon {
+  font-size: 18px;
+}
+
+.template-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #029292;
 }
 
 .modal-box input,
@@ -188,6 +254,14 @@
   padding: 10px 20px;
   border-radius: 8px;
   color: white;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: #9a9a9a;
 }
 
 .create-btn-modal {
@@ -195,11 +269,19 @@
   padding: 10px 20px;
   border-radius: 8px;
   color: white;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s ease;
+}
 
-
+.create-btn-modal:hover {
+  background: #027a7a;
 }
 
 /* Dark Mode Overrides */
+
+/* ==================== DARK MODE ==================== */
 body.dark-mode .projects-main {
   background: var(--bg-primary);
   color: var(--text-primary);
@@ -301,5 +383,51 @@ body.dark-mode .cancel-btn {
 body.dark-mode .cancel-btn:hover {
   background: #555;
   color: #fff;
+}
 
+body.dark-mode .create-btn-modal {
+  background: var(--accent);
+  color: #fff;
+}
+
+body.dark-mode .create-btn-modal:hover {
+  background: #027a7a;
+}
+
+body.dark-mode .template-badge {
+  background: rgba(0, 150, 136, 0.2);
+  border-color: var(--accent);
+}
+
+body.dark-mode .template-name {
+  color: var(--accent);
+}
+
+body.dark-mode .template-info-box {
+  background: rgba(0, 150, 136, 0.05);
+  border-color: rgba(0, 150, 136, 0.2);
+}
+
+body.dark-mode .template-description {
+  color: #aaa;
+}
+
+body.dark-mode .template-lists {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--accent);
+  color: #ccc;
+}
+
+body.dark-mode .template-lists strong {
+  color: var(--accent);
+}
+
+body.dark-mode .dropdown-item {
+  color: var(--text-primary);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .dropdown-item:hover {
+  background: linear-gradient(135deg, rgba(0, 150, 136, 0.15) 0%, rgba(0, 150, 136, 0.25) 100%);
+  color: var(--accent);
 }

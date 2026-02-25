@@ -1,11 +1,21 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import Sidebar from "./Sidebar";
 import "../styles/Projects.css";
 import { CalendarDays, Users, Plus, Trash2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
+import { TEMPLATE_INFO } from "../constants/templates";
 
 import InviteModal from "./InviteModal";
+
+const API_URL = import.meta.env.VITE_API_URL || "https://project-management-app-89n4.onrender.com/api";
+
+// Project color schemes - moved outside component to prevent recreation
+const PROJECT_COLORS = [
+  { bg: "#ccfafa", darkBg: "rgba(0, 185, 185, 0.15)", border: "#00b9b9" },
+  { bg: "#e5f0ff", darkBg: "rgba(122, 175, 245, 0.15)", border: "#7aaff5" },
+  { bg: "#edf4ef", darkBg: "rgba(180, 204, 185, 0.15)", border: "#b4ccb9" },
+];
 
 const Projects = () => {
   const { darkMode } = useTheme();
@@ -18,12 +28,6 @@ const Projects = () => {
   const [inviteBoardId, setInviteBoardId] = useState(null);
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
   const dropdownRef = useRef(null);
-
-  const projectColors = [
-    { bg: "#ccfafa", darkBg: "rgba(0, 185, 185, 0.15)", border: "#00b9b9" },
-    { bg: "#e5f0ff", darkBg: "rgba(122, 175, 245, 0.15)", border: "#7aaff5" },
-    { bg: "#edf4ef", darkBg: "rgba(180, 204, 185, 0.15)", border: "#b4ccb9" },
-  ];
 
   const [formData, setFormData] = useState({
     name: "",
@@ -42,7 +46,7 @@ const Projects = () => {
       if (!user) return navigate("/login");
 
       try {
-        const res = await fetch(`https://project-management-app-89n4.onrender.com/api/boards?userId=${user.id}`);
+        const res = await fetch(`${API_URL}/boards?userId=${user.id}`);
         const data = await res.json();
 
         const mapped = data.map((b, index) => ({
@@ -53,7 +57,7 @@ const Projects = () => {
           progress: b.progress,
           members: b.members?.length || 1,
           status: b.status,
-          ...projectColors[index % projectColors.length],
+          ...PROJECT_COLORS[index % PROJECT_COLORS.length],
         }));
 
         setProjects(mapped);
@@ -99,8 +103,18 @@ const Projects = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) return navigate("/login");
 
-    if (!formData.name || !formData.deadline)
-      return alert("Project Name & Deadline required!");
+    // Validation
+    if (!formData.name || !formData.name.trim()) {
+      return alert("⚠️ Project Name is required! Please enter a name for your project.");
+    }
+
+    if (!formData.deadline) {
+      return alert("📅 Deadline is required! Please select a deadline for your project.");
+    }
+
+    if (!formData.template) {
+      return alert("📋 Please select a template! Choose a template that best fits your project needs.");
+    }
 
     const mappedStatus =
       formData.status === "Not Started"
@@ -110,11 +124,11 @@ const Projects = () => {
           : "COMPLETED";
 
     try {
-      const res = await fetch("https://project-management-app-89n4.onrender.com/api/boards", {
+      const res = await fetch(`${API_URL}/boards`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          title: formData.name,
+          title: formData.name.trim(),
           description: formData.description,
           deadline: formData.deadline,
           progress: Number(formData.progress),
@@ -126,10 +140,13 @@ const Projects = () => {
       });
 
       const newBoard = await res.json();
-      if (!res.ok) return alert(newBoard.message || "Failed to create project");
 
-      const index = projects.length % projectColors.length;
-      const newColor = projectColors[index];
+      if (!res.ok) {
+        return alert(newBoard.message || "Failed to create project");
+      }
+
+      const index = projects.length % PROJECT_COLORS.length;
+      const newColor = PROJECT_COLORS[index];
 
       setProjects([
         ...projects,
@@ -155,9 +172,12 @@ const Projects = () => {
         template: "",
         organization: "",
       });
+
+      // Success notification
+      alert(`✅ Success! Project "${newBoard.title}" has been created successfully!`);
     } catch (err) {
       console.error(err);
-      alert("Failed to create project");
+      alert("❌ Failed to create project. Please check your connection and try again.");
     }
   };
 
@@ -168,7 +188,7 @@ const Projects = () => {
     }
 
     try {
-      const res = await fetch(`https://project-management-app-89n4.onrender.com/api/boards/${projectId}`, {
+      const res = await fetch(`${API_URL}/boards/${projectId}`, {
         method: "DELETE",
       });
 
@@ -204,9 +224,12 @@ const Projects = () => {
             className="create-dropdown"
             style={{ top: dropdownPos.top, left: dropdownPos.left, position: "absolute" }}
           >
-            <div className="dropdown-item" onClick={() => openCreateModal("Todo Template")}>Todo Template</div>
-            <div className="dropdown-item" onClick={() => openCreateModal("Project Template")}>Project Template</div>
-            <div className="dropdown-item" onClick={() => openCreateModal("Table")}>Table</div>
+            <div className="dropdown-item" onClick={() => openCreateModal("Todo Template")}>📝 Todo Template</div>
+            <div className="dropdown-item" onClick={() => openCreateModal("Project Template")}>🚀 Project Template</div>
+            <div className="dropdown-item" onClick={() => openCreateModal("Table")}>📊 Table</div>
+            <div className="dropdown-item" onClick={() => openCreateModal("Agile Sprint")}>⚡ Agile Sprint</div>
+            <div className="dropdown-item" onClick={() => openCreateModal("Bug Tracking")}>🐛 Bug Tracking</div>
+            <div className="dropdown-item" onClick={() => openCreateModal("Marketing Campaign")}>📢 Marketing Campaign</div>
           </div>
         )}
 
@@ -214,6 +237,18 @@ const Projects = () => {
           <div className="modal-overlay">
             <div className="modal-box">
               <h2>Create Project</h2>
+              {formData.template && TEMPLATE_INFO[formData.template] && (
+                <div className="template-info-box">
+                  <div className="template-badge">
+                    <span className="template-icon">{TEMPLATE_INFO[formData.template].icon}</span>
+                    <span className="template-name">{formData.template}</span>
+                  </div>
+                  <p className="template-description">{TEMPLATE_INFO[formData.template].description}</p>
+                  <div className="template-lists">
+                    <strong>Lists:</strong> {TEMPLATE_INFO[formData.template].lists.join(" → ")}
+                  </div>
+                </div>
+              )}
 
               <label>Project Name</label>
               <input

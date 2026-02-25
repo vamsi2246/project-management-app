@@ -73,6 +73,31 @@
   color: #333;
   font-size: 1rem;
   transition: 0.3s ease;
+  width: 100%;
+}
+
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #777;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.password-toggle-btn:hover {
+  color: #00b9b9;
 }
 
 .signup-form input:focus {

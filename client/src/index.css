@@ -1,9 +1,15 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
+  color-scheme: light;
 
   /* Global Variables - Default Light Mode */
   --bg-primary: #ffffff;
@@ -32,6 +38,7 @@ body.dark-mode {
   --border-color: #4A4A4A;
   --card-bg: #2A2A2A;
   --grid-line-color: #666666;
+  color-scheme: dark;
 }
 
 a {
